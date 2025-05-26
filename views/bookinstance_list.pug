@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+
+  if bookinstance_list.length
+    ul
+      each val in bookinstance_list
+        li
+          a(href=`/catalog/bookinstance/${val._id}`) #{val._id}:
+          |  відбиток: #{val.imprint}, 
+          |  книга: 
+          a(href=`/catalog/book/${val.book._id}`) #{val.book.title}, 
+          |  статус: 
+          span(class=val.status=='Available' ? 'text-success' : val.status=='Maintenance' ? 'text-danger' : 'text-warning') #{val.status}
+          if val.status != 'Available'
+            | , Due: #{val.due_back_formatted}
+  else
+    p Немає жодного екземпляра книги.
